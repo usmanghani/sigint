@@ -1,31 +1,42 @@
+import sys
 from pydub import AudioSegment
 
-from glob import glob
 
-mp3_files = filter(lambda x: x.endswith('mp3'), glob('*.mp3'))
+mp3_file = sys.argv[-1]
 
-segment = AudioSegment.from_mp3(mp3_files[0])
+segment = AudioSegment.from_mp3(mp3_file)
 
 # from pydub.silence import split_on_silence
 # segments_split_on_silence = split_on_silence(segment)
 
-seg1 = segment[45*1000:75*1000]
-from pydub.playback import play
-play(seg1)
+seg1 = segment#[510*1000:520*1000]
+# from pydub.playback import play
+# play(seg1)
 from pydub.utils import mediainfo
-mediainfo(mp3_files[0])
+print mediainfo(mp3_file)
 with seg1.export(out_f='abcd.wav', format='wav', codec='flac') as exported_file:
     pass
-
-mediainfo('abcd.wav')
-
-# from google_speech_api_test import do_stream
-# recognize(seg1.raw_data)
+print "----"
+print "----"
+print mediainfo('abcd.wav')
 
 
 
+import speech_recognition as sr
+from os import path
+AUDIO_FILE = path.join(path.dirname(path.realpath(__file__)), "abcd.wav")
 
+r = sr.Recognizer()
+with sr.AudioFile(AUDIO_FILE) as source:
+    audio = r.record(source) # read the entire audio file
 
-
-
-
+# recognize speech using Google Speech Recognition
+try:
+    # for testing purposes, we're just using the default API key
+    # to use another API key, use `r.recognize_google(audio, key="GOOGLE_SPEECH_RECOGNITION_API_KEY")`
+    # instead of `r.recognize_google(audio)`
+    print "Google Speech Recognition thinks you said ", r.recognize_google(audio)
+except sr.UnknownValueError:
+    print "Google Speech Recognition could not understand audio"
+except sr.RequestError as e:
+    print "Could not request results from Google Speech Recognition service; {0}".format(e)

@@ -7,8 +7,8 @@ import pprint
 from itertools import chain
 
 
-# feed = feedparser.parse('feed://feeds.soundcloud.com/users/soundcloud:users:38128127/sounds.rss')
-feed = feedparser.parse('startalk.xml')
+feed = feedparser.parse('feed://feeds.soundcloud.com/users/soundcloud:users:38128127/sounds.rss')
+# feed = feedparser.parse('startalk.xml')
 
 with open('bingo.txt', 'w') as f:
     f.write(pprint.pformat(feed))
@@ -34,4 +34,3 @@ for file_name, audio_file_content in pool.imap(get_asset, audio_urls[START: STAR
         f.write(audio_file_content.content)
 
     print "Done writing %s" % file_name
-
