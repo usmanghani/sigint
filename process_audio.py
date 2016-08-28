@@ -9,7 +9,7 @@ segment = AudioSegment.from_mp3(mp3_file)
 # from pydub.silence import split_on_silence
 # segments_split_on_silence = split_on_silence(segment)
 
-seg1 = segment#[510*1000:520*1000]
+seg1 = segment#[510*1000:525*1000]
 # from pydub.playback import play
 # play(seg1)
 from pydub.utils import mediainfo
