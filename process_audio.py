@@ -13,11 +13,11 @@ seg1 = segment#[510*1000:525*1000]
 # from pydub.playback import play
 # play(seg1)
 from pydub.utils import mediainfo
-print mediainfo(mp3_file)
-with seg1.export(out_f='abcd.wav', format='wav', codec='flac') as exported_file:
-    pass
-print "----"
-print "----"
+# print mediainfo(mp3_file)
+# with seg1.export(out_f='abcd.wav', format='wav', codec='flac') as exported_file:
+#     pass
+# print "----"
+# print "----"
 print mediainfo('abcd.wav')
 
 
