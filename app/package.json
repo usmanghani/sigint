@@ -1,9 +1,10 @@
 {
-  "name": "backend",
+  "name": "sigint-app",
   "version": "1.0.0",
-  "description": "api layer for sigint",
+  "description": "sigint core app",
   "main": "index.js",
   "scripts": {
+    "start": "forever -w -c \"node --debug\" server.js --watchIgnore",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
