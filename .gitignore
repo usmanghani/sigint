@@ -90,3 +90,4 @@ ENV/
 
 
 pyAudioAnalysis/
+config.py
