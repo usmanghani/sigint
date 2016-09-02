@@ -22,7 +22,16 @@ def transcribe_audio_file(audio_file):
     with sr.AudioFile(audio_file) as source:
         segments = segment_audio(source)
 
-    return "\n".join(recognize_google(seg) for seg in segments)
+    segments = segments[:12]
+
+
+    audio = {
+        "google": [recognize_google(seg) for seg in segments],
+        "ibm": [recognize_ibm(seg) for seg in segments],
+        "wit": [recognize_wit(seg) for seg in segments]
+    }
+
+    return audio
 
 
 def segment_audio(source):
@@ -37,6 +46,7 @@ def segment_audio(source):
 
 
 def recognize_google(audio):
+    print "g"
     # recognize speech using Google Speech Recognition
     try:
         # for testing purposes, we're just using the default API key
@@ -50,6 +60,7 @@ def recognize_google(audio):
 
 
 def recognize_ibm(audio):
+    print "i"
     # recognize speech using IBM Speech to Text
     try:
         return r.recognize_ibm(audio, username=IBM_USERNAME, password=IBM_PASSWORD)
@@ -60,6 +71,7 @@ def recognize_ibm(audio):
     return None
 
 def recognize_wit(audio):
+    print "w"
     # recognize speech using Wit.ai
     try:
         return r.recognize_wit(audio, key=WIT_AI_KEY)
@@ -122,10 +134,50 @@ audio_file = path.join(path.dirname(path.realpath(__file__)), audio_file)
 # with sr.AudioFile(AUDIO_FILE) as source:
 #     audio = r.record(source) # read the entire audio file
 
-print transcribe_audio_file(audio_file)
+audio = transcribe_audio_file(audio_file)
+
+f = open('audio_out', 'w')
+f.write(repr(audio))
+f.close()
 # embed()
 
 # seg1 = segment[241*1000:250*1000]
 # # from pydub.playback import play
 # # play(seg1)
 # seg1.export(out_f='temp.wav', format='wav', codec='flac')
+
+
+def levenshteinDistance(s1, s2):
+    if len(s1) > len(s2):
+        s1, s2 = s2, s1
+
+    distances = range(len(s1) + 1)
+    for i2, c2 in enumerate(s2):
+        distances_ = [i2+1]
+        for i1, c1 in enumerate(s1):
+            if c1 == c2:
+                distances_.append(distances[i1])
+            else:
+                distances_.append(1 + min((distances[i1], distances[i1 + 1], distances_[-1])))
+        distances = distances_
+    return distances[-1]
+
+wit = [ i.strip() for i in audio['wit']]
+google = [ i.strip() for i in audio['google']]
+ibm = [ i.strip() for i in audio['ibm']]
+ibm2 = [i.replace('\n','') for i in ibm]
+
+gw = [levenshteinDistance(g,w) for g,w in zip(google, wit)]
+gi = [levenshteinDistance(g,i) for g,i in zip(google, ibm)]
+gi2 = [levenshteinDistance(g,i) for g,i in zip(google, ibm2)]
+iw = [levenshteinDistance(w,i) for w,i in zip(ibm, wit)]
+i2w = [levenshteinDistance(w,i) for w,i in zip(ibm2, wit)]
+
+gdist = sum(gw)+sum(gi)
+wdist = sum(gw)+sum(iw)
+idist = sum(gi)+sum(iw)
+i2dist = sum(gi2)+sum(i2w)
+print "google", gdist
+print "ibm1", idist
+print "ibm clean", i2dist
+print "wit", wdist
