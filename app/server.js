@@ -1,5 +1,12 @@
-var app = new (require('express'))()
-var port = 3000
+let app = new (require('express'))()
+let busboy = require('connect-busboy')
+
+
+let port = 3000
+
+// middleware
+app.use(busboy());
+
 
 // holding place root api should point to a frontend
 app.get('/', function (req, res) {
