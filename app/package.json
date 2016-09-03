@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/usmanghani/sigint/issues"
   },
-  "homepage": "https://github.com/usmanghani/sigint#readme"
+  "homepage": "https://github.com/usmanghani/sigint#readme",
+  "dependencies": {
+    "watson-developer-cloud": "^2.2.0"
+  }
 }
