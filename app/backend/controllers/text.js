@@ -20,8 +20,8 @@ let text_analysis = function(text, callback){
 let router = express.Router();
 
 // might change this to a post and use the body instead of a query string
-router.get('/analysis', function(req, res) {
-  let text = req.query.text || "";
+router.post('/analysis', function(req, res) {
+  let text = req.body.text || "";
   text_analysis(text, function(error, response) {
     if (error) {
       res.status(500).send({'error': error});
