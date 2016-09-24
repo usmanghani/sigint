@@ -4,7 +4,8 @@
   "description": "sigint core app",
   "main": "index.js",
   "scripts": {
-    "start": "forever -w -c \"node --debug\" server.js --watchIgnore",
+    "start": "nodemon server.js --ignore dist --ignore tmp --ignore frontend",
+    "start2": "forever -w -c \"node --debug\" server.js --watchIgnore",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -20,6 +21,26 @@
   "dependencies": {
     "connect-busboy": "0.0.2",
     "express": "^4.14.0",
+    "react": "^15.3.2",
+    "react-file-input": "^0.2.5",
+    "react-redux": "^4.4.5",
+    "redux": "^3.6.0",
+    "redux-logger": "^2.6.1",
+    "redux-thunk": "^2.1.0",
     "watson-developer-cloud": "^2.2.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.14.0",
+    "babel-core": "^6.14.0",
+    "babel-loader": "^6.2.5",
+    "babel-preset-es2015": "^6.14.0",
+    "babel-preset-react": "^6.11.1",
+    "babel-preset-react-hmre": "^1.1.1",
+    "css-loader": "^0.25.0",
+    "nodemon": "^1.10.2",
+    "style-loader": "^0.13.1",
+    "webpack": "^1.13.2",
+    "webpack-dev-middleware": "^1.8.2",
+    "webpack-hot-middleware": "^2.12.2"
   }
 }
