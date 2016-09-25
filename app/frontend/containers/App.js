@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { get } from 'lodash';
 import FileInput from 'react-file-input';
 
-import { loadFile } from '../actions';
+import { loadFile, recievePlayerTime } from '../actions';
 import ReactAudioPlayer from './Player.js';
 
 class App extends Component {
@@ -43,6 +43,8 @@ class App extends Component {
           if (this.props.dataUrl){
             return <ReactAudioPlayer
               src={this.props.dataUrl}
+              onListen={this.props.recievePlayerTime}
+              startTime={2.1}
             />
           }
         })()}
@@ -55,14 +57,16 @@ App.propTypes = {};
 
 function mapStateToProps(state, ownProps) {
   return {
-    file: state.file,
-    dataUrl: state.dataUrl,
+    file: state.playerInfo.file,
+    dataUrl: state.playerInfo.dataUrl,
+    currentPlayerTime: state.playerInfo.currentPlayerTime,
   };
 }
 
 function mapDispatchToProps(dispatch, ownProps){
   return bindActionCreators({
-    loadFile
+    loadFile,
+    recievePlayerTime
   },
     dispatch
   )

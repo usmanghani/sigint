@@ -1,29 +1,24 @@
 import { combineReducers } from 'redux'
 
-import { RECEIVE_FILE, RECEIVE_DATA_URL } from '../actions'
+import { RECEIVE_FILE, RECEIVE_DATA_URL, RECIEVE_PLAYER_TIME } from '../actions'
 
 
-function file(state = null, action) {
+function playerInfo(state = {}, action) {
   switch (action.type) {
     case RECEIVE_FILE:
-      return action.file
+      return Object.assign({}, state, {file: action.file})
+    case RECEIVE_DATA_URL:
+      return Object.assign({}, state, {dataUrl: action.dataUrl})
+    case RECIEVE_PLAYER_TIME:
+      return Object.assign({}, state, {time: action.time})
     default:
       return state
   }
 }
 
-function dataUrl(state = '', action) {
-  switch (action.type) {
-    case RECEIVE_DATA_URL:
-      return action.dataUrl
-    default:
-      return state
-  }
-}
 
 const rootReducer = combineReducers({
-  file,
-  dataUrl,
+  playerInfo,
 })
 
 export default rootReducer

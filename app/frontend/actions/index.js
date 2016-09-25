@@ -3,6 +3,7 @@ import querystring from 'querystring';
 
 export const RECEIVE_FILE = 'RECEIVE_FILE'
 export const RECEIVE_DATA_URL = 'RECEIVE_DATA_URL'
+export const RECIEVE_PLAYER_TIME = 'RECIEVE_PLAYER_TIME'
 
 
 export function receiveFile(file) {
@@ -27,6 +28,13 @@ export function loadFile(file) {
       dispatch(receiveDataUrl(e.target.result));
     }
     freader.readAsDataURL(file)
+  }
+}
+
+export function recievePlayerTime(time){
+  return {
+    type: RECIEVE_PLAYER_TIME,
+    time
   }
 }
 

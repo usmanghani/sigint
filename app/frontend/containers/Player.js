@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
-const DEFAULT_LISTEN_INTERVAL = 10000;
+const DEFAULT_LISTEN_INTERVAL = 100;
 
 
 // note to self look into howler to make a nicer player
@@ -23,7 +23,7 @@ class ReactAudioPlayer extends Component {
     });
 
     // When audio play starts
-    audio.addEventListener('play', (e) => {
+    audio.addEventListener('playing', (e) => {
       this.setListenTrack();
       this.props.onPlay && this.props.onPlay(e);
     });
@@ -51,13 +51,22 @@ class ReactAudioPlayer extends Component {
       this.clearListenTrack();
       this.props.onSeeked && this.props.onSeeked(e);
     });
+
+    if (this.props.startTime){
+      audio.currentTime = this.props.startTime;
+    }
   }
 
   componentWillReceiveProps(nextProps) {
+    const audio = this.audioEl;
     if (nextProps.selectedPlayerEvent) {
-      const audio = this.audioEl;
-
       audio.currentTime = nextProps.selectedPlayerEvent.playTime;
+      audio.play();
+    }
+
+    // time reset programaticly not from seek
+    if (nextProps.startTime !== this.props.startTime){
+      audio.currentTime = nextProps.startTime;
       audio.play();
     }
   }
@@ -120,6 +129,7 @@ ReactAudioPlayer.propTypes = {
   onSeeked: PropTypes.func,
   preload: PropTypes.string,
   src: PropTypes.string,
+  startTime: PropTypes.number,
 };
 
 export default ReactAudioPlayer;
