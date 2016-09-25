@@ -1,19 +1,29 @@
 import { combineReducers } from 'redux'
 
-import { RECEIVE_CONFIG } from '../actions'
+import { RECEIVE_FILE, RECEIVE_DATA_URL } from '../actions'
 
 
-function config(state = {}, action) {
+function file(state = null, action) {
   switch (action.type) {
-    case RECEIVE_CONFIG:
-      return action.config
+    case RECEIVE_FILE:
+      return action.file
+    default:
+      return state
+  }
+}
+
+function dataUrl(state = '', action) {
+  switch (action.type) {
+    case RECEIVE_DATA_URL:
+      return action.dataUrl
     default:
       return state
   }
 }
 
 const rootReducer = combineReducers({
-  config
+  file,
+  dataUrl,
 })
 
 export default rootReducer
